@@ -1,0 +1,74 @@
+#include<stdio.h>
+
+int main()
+{
+
+        int i, j, n, pt[20], wt[20], bt[20], tat[20], burst=0,total=0, ct, pid[20];
+
+        printf("\nEnter the total number of processes: ");
+        scanf("%d", &n);
+
+        for(i=0; i<n; i++)
+        {
+            printf("\nEnter Priority and Burst Time of process %d: ",i+1);
+            scanf("%d%d", &pt[i], &bt[i]);
+        }
+
+
+        for(i=0; i<n;i++)
+        {
+            pid[i] = i;
+        }
+
+        for(i=0;i<n;i++)
+        {
+            for(j=i+1; j<n; j++)
+            {
+               if(pt[j] < pt[i])
+               {
+                   int temp = pt[i];
+                   pt[i] = pt[j];
+                   pt[j] = temp;
+
+                   temp = pid[i];
+                   pid[i] = pid[j];
+                   pid[j] = temp;
+
+                   temp = bt[i];
+                   bt[i] = bt[j];
+                   bt[j] = temp;
+                }
+            }
+        }
+
+        printf("\tPID \tPT \tBT \t\n");
+        for(i=0; i<n; i++){
+                printf("\tP%d \t%d \t%d \t\n",pid[i], pt[i],bt[i]);
+        }
+
+        ct=0;
+        total=0;
+        for(i=0;i<n;i++)
+        {
+            ct+=bt[i];
+            tat[i]=ct;
+            total+=tat[i];
+        }
+
+        for(i=0;i<n;i++)
+        {
+                wt[i]= tat[i] - bt[i];
+        }
+
+        printf("\nPID\tPriority\tBT\tWT\tTAT\n");
+        for(i=0;i<n;i++)
+        {
+                printf("P%d\t%d       \t%d\t%d\t%d\n",pid[i], pt[i], bt[i], wt[i],tat[i]);
+        }
+        printf("\nProcess order\n");
+        for(i=0;i<n;i++)
+        {
+             printf("P%d -->", pid[i]);
+        }
+        printf("\n");
+}
